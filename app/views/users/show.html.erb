@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+<h1>User Details</h1>
+<div id="user-details">
+  <p><strong>Email:</strong> <%= @user.email %></p>
+</div>
+<h2>Workouts</h2>
+<table id="user-workouts-table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @user.workouts.each do |workout| %>
+      <tr id="workout_<%= workout.id %>">
+        <td><%= link_to workout.title, workout %></td>
+        <td>
+          <%= link_to "Show", workout %> |
+          <%= link_to "Edit", edit_workout_path(workout) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to "Add Workout", new_workout_path(user_id: @user.id), id: "add-workout-link" %>
+<div class="actions">
+  <%= link_to "Edit User", edit_user_path(@user), id: "edit-user-link" %> |
+  <%= link_to "Back to Users", users_path, id: "back-to-users-link" %>
+  <%= button_to "Destroy this user", @user, method: :delete, data: { confirm: "Are you sure?" } %>
+</div>

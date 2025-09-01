@@ -1,0 +1,28 @@
+<p style="color: green"><%= notice %></p>
+<% content_for :title, "Exercises" %>
+<h1>Exercises</h1>
+<table id="exercises-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Reps</th>
+      <th>Workout</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @exercises.each do |exercise| %>
+      <tr id="exercise_<%= exercise.id %>">
+        <td><%= link_to exercise.name, exercise %></td>
+        <td><%= exercise.reps %></td>
+        <td><%= exercise.workout&.title || exercise.workout_id %></td>
+        <td>
+          <%= link_to "Show", exercise %> |
+          <%= link_to "Edit", edit_exercise_path(exercise) %> |
+          <%= button_to "Delete", exercise, method: :delete, data: { confirm: "Are you sure?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to "New Exercise", new_exercise_path, id: "new-exercise-link" %>

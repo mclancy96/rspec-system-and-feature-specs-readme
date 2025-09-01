@@ -1,0 +1,22 @@
+<p style="color: green"><%= notice %></p>
+<%= render @exercise %>
+<div>
+  <h1>Exercise Details</h1>
+  <div id="exercise-details">
+    <p><strong>Name:</strong> <%= @exercise.name %></p>
+    <p><strong>Reps:</strong> <%= @exercise.reps %></p>
+    <p><strong>Workout:</strong>
+      <% if @exercise.workout %>
+        <%= link_to @exercise.workout.title, workout_path(@exercise.workout) %>
+      <% else %>
+        (none)
+      <% end %>
+    </p>
+  </div>
+  <div class="actions">
+    <%= link_to "Edit", edit_exercise_path(@exercise), id: "edit-exercise-link" %> |
+    <%= link_to "Back to Exercises", exercises_path, id: "back-to-exercises-link" %> |
+    <%= link_to "Back to Workouts", workouts_path, id: "back-to-workouts-link" %>
+  </div>
+  <%= button_to "Destroy this exercise", @exercise, method: :delete %>
+</div>
