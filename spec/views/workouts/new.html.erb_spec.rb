@@ -16,7 +16,6 @@ RSpec.describe "workouts/new", type: :view do
 
       assert_select "input[name=?]", "workout[title]"
 
-  assert_select "select[name=?]", "workout[user_id]"
     end
   end
 end

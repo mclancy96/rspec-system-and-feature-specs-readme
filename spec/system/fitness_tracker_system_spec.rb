@@ -1,9 +1,7 @@
-# frozen_string_literal: true
 
 require 'rails_helper'
 
 RSpec.describe 'Fitness Tracker System', type: :system do
-  # 1. User registration
   it 'allows a new user to register' do
     visit new_user_path
     fill_in 'Name', with: 'Test User'
@@ -11,11 +9,9 @@ RSpec.describe 'Fitness Tracker System', type: :system do
     fill_in 'Password', with: 'password123'
     fill_in 'Password Confirmation', with: 'password123'
     click_button 'Create User'
-    # Accept either flash or show page, robust to redirect or render
     expect(page).to have_content('User was successfully created').or have_content('User Details').or have_content('testuser@example.com')
   end
 
-  # 2. User login
   it 'allows a user to log out' do
     User.create!(name: 'Logout User', email: 'logout@example.com', password: 'password', password_confirmation: 'password')
     visit login_path
@@ -23,7 +19,6 @@ RSpec.describe 'Fitness Tracker System', type: :system do
     fill_in 'Password', with: 'password'
     click_button 'Log In'
   expect(page).to have_selector('button#logout-link')
-  # Use Capybara to click the logout button
   find('button#logout-link').click
     expect(page).to have_content('Logged out').or have_content('Log In')
   end
@@ -38,19 +33,20 @@ RSpec.describe 'Fitness Tracker System', type: :system do
     expect(page).to have_content('Logged out').or have_content('Log In')
   end
 
-  # 4. Create a workout
   it 'allows a user to create a workout' do
-  user = User.create!(name: 'Workout User', email: 'workout@example.com', password: 'password', password_confirmation: 'password')
-  visit login_path
-  fill_in 'Email', with: 'workout@example.com'
-  fill_in 'Password', with: 'password'
-  click_button 'Log In'
-  visit workouts_path # Ensure user is loaded in dropdown
+    user = User.create!(name: 'Workout User', email: 'workout@example.com', password: 'password', password_confirmation: 'password')
+
+    visit login_path
+    fill_in 'Email', with: 'workout@example.com'
+    fill_in 'Password', with: 'password'
+    click_button 'Log In'
+
     click_link 'New Workout'
-    fill_in 'Workout Title', with: 'Morning Routine'
-  select user.email, from: 'User'
+    fill_in 'workout_title', with: 'Morning Routine' # use id instead of label
     click_button 'Create Workout'
-  expect(page).to have_content('Workout was successfully created').or have_content('Workout Details').or have_content('Morning Routine')
+
+    expect(page).to have_content('Workout was successfully created')
+    expect(page).to have_content('Morning Routine')
   end
 
   it 'allows a user to add an exercise to a workout' do
@@ -83,7 +79,6 @@ RSpec.describe 'Fitness Tracker System', type: :system do
     expect(page).to have_content('Workout 2')
   end
 
-  # 7. View exercises index
   it 'shows a list of exercises' do
     user = User.create!(name: 'Exercise Index User', email: 'exindex@example.com', password: 'password', password_confirmation: 'password')
     workout = Workout.create!(title: 'Index Workout', user: user)
@@ -98,7 +93,6 @@ RSpec.describe 'Fitness Tracker System', type: :system do
     expect(page).to have_content('Squats')
   end
 
-  # 8. Edit a workout
   it 'allows a user to edit a workout' do
     user = User.create!(name: 'Edit Workout User', email: 'editworkout@example.com', password: 'password', password_confirmation: 'password')
     workout = Workout.create!(title: 'Old Title', user: user)
@@ -113,7 +107,6 @@ RSpec.describe 'Fitness Tracker System', type: :system do
     expect(page).to have_content('Workout was successfully updated').or have_content('New Title')
   end
 
-  # 9. Edit an exercise
   it 'allows a user to edit an exercise' do
     user = User.create!(name: 'Edit Exercise User', email: 'editexercise@example.com', password: 'password', password_confirmation: 'password')
     workout = Workout.create!(title: 'Edit Ex Workout', user: user)
@@ -130,7 +123,6 @@ RSpec.describe 'Fitness Tracker System', type: :system do
     expect(page).to have_content('Exercise was successfully updated').or have_content('Burpees').or have_field('Exercise Name', with: 'Burpees')
   end
 
-  # 10. Delete a workout
   it 'allows a user to delete a workout' do
     user = User.create!(name: 'Delete Workout User', email: 'deleteworkout@example.com', password: 'password', password_confirmation: 'password')
     Workout.create!(title: 'Delete Me', user: user)
@@ -139,12 +131,10 @@ RSpec.describe 'Fitness Tracker System', type: :system do
     fill_in 'Password', with: 'password'
     click_button 'Log In'
     visit workouts_path
-    # Remove accept_confirm, just click the button (Capybara auto-accepts confirm for button_to)
     click_button 'Delete', match: :first
     expect(page).not_to have_content('Delete Me')
   end
 
-  # 11. Delete an exercise
   it 'allows a user to delete an exercise' do
     user = User.create!(name: 'Delete Exercise User', email: 'deleteexercise@example.com', password: 'password', password_confirmation: 'password')
     workout = Workout.create!(title: 'Delete Ex Workout', user: user)
@@ -158,7 +148,6 @@ RSpec.describe 'Fitness Tracker System', type: :system do
     expect(page).not_to have_content('Delete Me')
   end
 
-  # 12. View a user's workouts from user show page
   it 'shows a user workouts list' do
     user = User.create!(name: 'Show User', email: 'showuser@example.com', password: 'password', password_confirmation: 'password')
     Workout.create!(title: 'Show Workout 1', user: user)
@@ -172,7 +161,6 @@ RSpec.describe 'Fitness Tracker System', type: :system do
     expect(page).to have_content('Show Workout 2')
   end
 
-  # 13. View a workout's exercises from workout show page
   it 'shows a workout exercises list' do
     user = User.create!(name: 'Show Ex User', email: 'showexuser@example.com', password: 'password', password_confirmation: 'password')
     workout = Workout.create!(title: 'Show Ex Workout', user: user)
@@ -187,7 +175,6 @@ RSpec.describe 'Fitness Tracker System', type: :system do
     expect(page).to have_content('Lunges')
   end
 
-  # 14. Pending: User cannot create a workout without a title
   it 'does not allow creating a workout without a title' do
     pending('not yet implemented')
     raise

@@ -21,17 +21,13 @@ class WorkoutsController < ApplicationController
 
   # POST /workouts
   def create
-    wp = workout_params
-    if wp[:user_id].blank? && User.count == 1
-      wp = wp.merge(user_id: User.first.id)
-    end
-    @workout = Workout.new(wp)
-    flash[:notice] = "Workout was successfully created."
-    if @workout.save
-      redirect_to @workout, notice: "Workout was successfully created."
-    else
+    @workout = Workout.new(workout_params)
+    @workout.user = current_user
+    unless @workout.save!
       render :new, status: :unprocessable_entity
+      return
     end
+    redirect_to @workout, notice: "Workout was successfully created."
   end
 
   # PATCH/PUT /workouts/1

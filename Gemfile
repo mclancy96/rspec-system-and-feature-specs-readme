@@ -37,6 +37,10 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 end
 
+group :test do
+  gem 'database_cleaner-active_record'
+end
+
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
@@ -45,3 +49,4 @@ end
 gem "rspec-rails", "~> 8.0"
 gem "capybara", "~> 3.40"
 gem 'rubocop'
+gem 'pry'
