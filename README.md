@@ -1,6 +1,6 @@
 # RSpec: System/Feature Specs: Simulating User Behavior with Capybara
 
-Welcome to Lesson 22! In this lesson, we're going to take a deep dive into writing RSpec system and feature specs using Capybara to simulate real user behavior in your Rails app. Capybara is the de facto tool for browser automation in Rails testing, and it lets you write tests that interact with your app just like a real user would—visiting pages, filling out forms, clicking buttons, and even running JavaScript. We'll cover the basics, advanced scenarios, debugging tips, and best practices. If you know Ruby and Rails but are new to automated testing, this is your comprehensive guide to end-to-end user simulation!
+In this lesson, we're going to take a deep dive into writing RSpec system and feature specs using Capybara to simulate real user behavior in your Rails app. Capybara is the de facto tool for browser automation in Rails testing, and it lets you write tests that interact with your app just like a real user would—visiting pages, filling out forms, clicking buttons, and even running JavaScript. We'll cover the basics, advanced scenarios, debugging tips, and best practices. If you know Ruby and Rails but are new to automated testing, this is your comprehensive guide to end-to-end user simulation!
 
 ---
 
